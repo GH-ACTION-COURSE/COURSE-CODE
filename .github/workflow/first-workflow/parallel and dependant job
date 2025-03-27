@@ -24,4 +24,4 @@ jobs:
         run: write-output "windows string"
 
       - name: Error step
-        run: doesnotexist # Fixed typo from 'doesnotexits' to 'doesnotexist'
+        run: doesnotexist

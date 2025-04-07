@@ -1,14 +1,36 @@
 name: environment variables
 on: [push]
 
+env:
+WE_LEVEL EVN: Available to all jobs
+
 jobs:
    env-vars-and-context:
      runs-on: ubuntu-latest
+     # if: $GITHUB_REF == 'refs/head/main' DONT DO THIS
+     if: github.ref =='refS/head/main'
+     env:
+       JOB_LEVEL_ENV: Available to all steps in env-vars-and-context jobs
+
      step:
         - name: log ENV variables
           run: echo $GITHUB_REF
         - name: log context
           run: echo '${{ github.ref }}'
+        - name: Log custom ENV vars 
+          env:
+             STEP_LEVEL_ENV: Available to only this step
+             WF_LEVEL_ENV: overriden in step
+          run:
+             echo '${{ env.STEP_LEVEL_ENV }} '
+             echo $STEP_LEVEL_ENV
+             echo $WF_LEVEL_ENV_LEVEL_ENV
+             echo $JOB_LEVEL_ENV
+
+
+            
+
+
 
 
 

@@ -1,0 +1,29 @@
+name: Reusable workflow
+no:
+workflow_call:
+  inputs:
+    name:
+      description: 'input description'
+      type: string
+      default: 'dennis'
+      required: false
+      secrets:
+        access-token:
+          description: 'secret description'
+          required: true
+jobs: 
+  checkout:
+    runs-on ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: ls -a 
+ log-context-and-inputs:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Dispay github context
+       run: echo '${{ toJSON(github) }}'
+     - name: Dispay name input
+       run: echo ${{ input.name }}
+     - name: Dispay access-token secret
+       run: echo ${{ secrets.access-token }}
+       

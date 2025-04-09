@@ -1,0 +1,23 @@
+name: calling Reusable workflows 
+on: 
+  workflow_dispatch
+  inputs:
+    name:
+      description: 'input description'
+      type: string
+      default: 'dennis'
+      required: false
+      secrets:
+        access-token:
+          description: 'secret description'
+          required: true
+jobs:
+  calling-a-Reusable-wf:
+    uses: github-actions-course/workflow/.github/Reusable.yaml@main
+    with:
+      name: ${{ input.name }}
+      secrets: 
+        access-token: ${{ secrets.ACCESS_TOKEN }}
+
+
+

@@ -1,0 +1,23 @@
+name: caching and artifacts
+on: [workflow_dispatch]
+jobs: 
+  use-axios:
+  runs-on: ubuntu-latest
+  steps: 
+    - uses: actions/checkout@v3
+    - name: install dependencies
+      run: npm install
+    - name: use axios
+      uses: actions/github-script@v6
+      with:
+        script
+          cont axios = require(' axios');
+          cont re = await axios('http://icanhazdadjoy.com', {headers{ Accept text/plain } })
+          console.log(res.data)
+
+
+
+
+
+
+      

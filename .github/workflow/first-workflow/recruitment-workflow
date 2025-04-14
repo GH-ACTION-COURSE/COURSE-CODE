@@ -1,0 +1,48 @@
+name: Recruitment
+
+on:
+workflow_dispatch:
+  inputs:
+    candidate_name:
+      description: Bassey Esikpong  Nton
+      required: true
+      type: string
+    resume_link:
+      description: [link to resume]
+      required: true
+      type: string
+    position:
+      description: mobile app development
+      required: true
+      type: string
+
+      jobs:
+        resume-screening:
+          run-on: ubuntu-latest
+          steps:
+            - name: screen resume
+          run: |
+            echo "screening resume for ${{ inputs.candidate_name }}..."
+            echo "Rusume: ${{ inputs.rusume_link }}"
+            echo "position: ${{ inputs.postion }}"
+            # simulate AI "screening or send to API
+            echo " passed initial screening."
+
+schedule-interview:
+  needs: resume-screening
+  run-on: ubuntu-latest
+  steps:
+    - name: schedule-interview
+      run: |
+        echo " ${{ Bassey Esikpong }}"
+        echo " gobackenddevelopment@gmail.com "
+        echo " 30 may, 2024"
+
+notify-hr:
+  needs: 2hours
+  run-on: ubuntu-latest
+  steps:
+    - name: notify on
+      run: |
+        echo " notify HR about progress for ${{ Bassey Esikpong }}"
+        echo " all steps comleted"

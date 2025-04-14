@@ -22,7 +22,7 @@ workflow_dispatch:
           steps:
             - name: screen resume
           run: |
-            echo "screening resume for ${{ inputs.candidate_name }}..."
+            echo "screening resume for ${{ Bassey Esikpong }}..."
             echo "Rusume: ${{ inputs.rusume_link }}"
             echo "position: ${{ inputs.postion }}"
             # simulate AI "screening or send to API

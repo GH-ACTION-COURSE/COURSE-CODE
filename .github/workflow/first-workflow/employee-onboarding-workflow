@@ -1,0 +1,49 @@
+name: Employee Onboarding Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      employee_name:
+        description: Bassey Esikpong
+        required: true
+        type: string
+    department:
+      description: "department"
+      required: true
+      type: string
+    email:
+      description: gocitymobileappdevelopment@gmail.com
+      required: true
+      type: string
+    role:
+      description: Gocity Tech Business
+      required: true
+      type: string
+
+  jobs:
+    setup-account:
+      run-on: ubuntu-latest
+      steps:
+        - name: Gocity Tech
+          run: |
+            echo "setting up account for ${{ Bassey Esikpong }}
+            echo "Email: ${{ gocitymobileappdevelopment@gmail.com}}"
+            echo "Assigning role: ${{ code base chiarman }}"
+
+  notify-teams:
+    needs: setup-account
+    runs-on: ubuntu-latest
+    steps:
+      - name: Business teams of Gocity
+        run: |
+          echo "Notify team about new hire: ${{ Bassey Esikpong }}"
+          eco " welcome email sent!"
+
+  assign-tasks:
+    needs: Gocity Tech
+    runs-on: ubuntu-latest
+    steps:
+      - name: assign onboarding assign-tasks
+        run: |
+          echo " Assigning initial task to ${{ Bassey Esikpong }}"
+          echo " task list created for onboarding."

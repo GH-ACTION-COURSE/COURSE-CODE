@@ -1,0 +1,50 @@
+class LoanApplication:
+    def _init_(self, application_name, credit_score):
+        self.applicantion_name = application_name
+        self.status = "pending"
+
+class RuleEngine:
+    def _init_(self):
+        self.rules = []
+        
+    def add_rule(self, condition, action):
+        self.rule.append((condition, action))
+        
+    def run(self, application):
+        for condition, action in self.rules:
+            if condition(application):
+                action(application)
+                break # stop after the first matching rule
+                
+# --- Action ---
+def approve(app): 
+    app.status = "Approved"
+    print(f{app.application_name} is Approved."")
+    
+def review(app):
+    app.status = "under Review"
+    print(f"{app.applicant_name} needs manual review.")
+    
+def reject(app):
+    app.status = "Rejected"
+    print(f"{app.application_name} is rejected.")
+
+# --- Create Engine and Add Rules ---
+engine = RuleEngine()
+
+engine.add_rule(lambda app: app.credit_score>= 750, approve)
+engine.add_rule(lambda app: 600 <= app.credit_score < 750, review)
+engine.add_rule(lambda app: app.credit_score < 600, rejected)
+
+# --- Test the Workflow
+application = [
+LoanApplication("Ashani", 780),
+LoanApplication("dennis", 680),
+LoanApplication("willion", 550),
+
+]
+
+for app in applications:
+    engine.run(app)
+    print(f"Final Status: {app.status}")
+    print("---")

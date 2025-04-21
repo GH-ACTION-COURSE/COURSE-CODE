@@ -1,0 +1,63 @@
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class EmailCampaign {
+
+    static class User {
+        String name;
+        String email;
+        boolean openedLastEmail = false;
+
+        public User(String name, String email) {
+            this.name = name;
+            this.email = email;
+        }
+    }
+
+    public static void main(String[] args) {
+        User newUser = new User("Alex", "alex@example.com");
+
+        // Start welcome email workflow
+        sendWelcomeSeries(newUser);
+    }
+
+    public static void sendWelcomeSeries(User user) {
+        Timer timer = new Timer();
+
+        // Email 1: Immediately
+        timer.schedule(new TimerTask() {
+            public void run() {
+                sendEmail(user, "Welcome to our platform, " + user.name + "!");
+                user.openedLastEmail = simulateUserInteraction();
+            }
+        }, 0); // Immediately
+
+        // Email 2: 5 seconds later
+        timer.schedule(new TimerTask() {
+            public void run() {
+                if (user.openedLastEmail) {
+                    sendEmail(user, "Thanks for checking us out! Here are some tips.");
+                } else {
+                    sendEmail(user, "Still with us? Here's what you're missing!");
+                }
+                user.openedLastEmail = simulateUserInteraction();
+            }
+        }, 5000); // 5 seconds
+
+        // Email 3: 10 seconds later
+        timer.schedule(new TimerTask() {
+            public void run() {
+                sendEmail(user, "Here’s your 10% discount, just for joining!");
+            }
+        }, 10000); // 10 seconds
+    }
+
+    public static void sendEmail(User user, String message) {
+        System.out.println("Sending email to " + user.email + ": " + message);
+    }
+
+    public static boolean simulateUserInteraction() {
+        // Randomly simulate if user opened the email
+        return Math.random() > 0.5;
+    }
+}

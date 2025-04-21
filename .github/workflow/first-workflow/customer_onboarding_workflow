@@ -1,0 +1,76 @@
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class CustomerOnboarding {
+
+    static class User {
+        String name;
+        String email;
+        boolean profileCompleted = false;
+        boolean usedFeature = false;
+
+        public User(String name, String email) {
+            this.name = name;
+            this.email = email;
+        }
+    }
+
+    public static void main(String[] args) {
+        User newUser = new User("Jamie", "jamie@example.com");
+
+        startOnboardingWorkflow(newUser);
+    }
+
+    public static void startOnboardingWorkflow(User user) {
+        Timer timer = new Timer();
+
+        // Step 1: Welcome email
+        timer.schedule(new TimerTask() {
+            public void run() {
+                sendEmail(user, "Welcome to the app, " + user.name + "! 🎉");
+                user.profileCompleted = simulateUserAction("Fill out profile");
+            }
+        }, 0); // Now
+
+        // Step 2: Profile completion reminder
+        timer.schedule(new TimerTask() {
+            public void run() {
+                if (!user.profileCompleted) {
+                    sendEmail(user, "Don't forget to complete your profile to unlock features.");
+                    user.profileCompleted = simulateUserAction("Filled it after reminder");
+                }
+            }
+        }, 5000); // 5 seconds later
+
+        // Step 3: First feature usage prompt
+        timer.schedule(new TimerTask() {
+            public void run() {
+                if (user.profileCompleted) {
+                    sendEmail(user, "Awesome! Try this feature next 👉");
+                    user.usedFeature = simulateUserAction("Tried the feature");
+                }
+            }
+        }, 10000); // 10 seconds later
+
+        // Step 4: Wrap up onboarding
+        timer.schedule(new TimerTask() {
+            public void run() {
+                if (user.usedFeature) {
+                    sendEmail(user, "You're all set, " + user.name + "! 🎯 Onboarding complete.");
+                } else {
+                    sendEmail(user, "Need help using the app? We're here for you.");
+                }
+            }
+        }, 15000); // 15 seconds later
+    }
+
+    public static void sendEmail(User user, String message) {
+        System.out.println("📧 To: " + user.email + "\n" + message + "\n");
+    }
+
+    public static boolean simulateUserAction(String action) {
+        boolean didAction = Math.random() > 0.4;
+        System.out.println("🧪 Simulating user action: " + action + " → " + (didAction ? "✅ Done" : "❌ Skipped"));
+        return didAction;
+    }
+}

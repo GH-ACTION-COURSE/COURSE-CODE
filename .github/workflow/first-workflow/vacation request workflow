@@ -1,0 +1,81 @@
+import java.util.*;
+
+public class VacationWorkflow {
+
+    enum Status { PENDING, APPROVED, REJECTED }
+
+    static class VacationRequest {
+        String employeeName;
+        String startDate;
+        String endDate;
+        Status status;
+        String managerComment;
+
+        VacationRequest(String employeeName, String startDate, String endDate) {
+            this.employeeName = employeeName;
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.status = Status.PENDING;
+        }
+
+        void approve(String comment) {
+            this.status = Status.APPROVED;
+            this.managerComment = comment;
+        }
+
+        void reject(String comment) {
+            this.status = Status.REJECTED;
+            this.managerComment = comment;
+        }
+
+        void display() {
+            System.out.println("Employee: " + employeeName);
+            System.out.println("Dates: " + startDate + " to " + endDate);
+            System.out.println("Status: " + status);
+            if (managerComment != null) {
+                System.out.println("Manager Comment: " + managerComment);
+            }
+            System.out.println("------------------------");
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<VacationRequest> requests = new ArrayList<>();
+
+        System.out.print("Enter your name: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Enter start date (YYYY-MM-DD): ");
+        String start = scanner.nextLine();
+
+        System.out.print("Enter end date (YYYY-MM-DD): ");
+        String end = scanner.nextLine();
+
+        VacationRequest req = new VacationRequest(name, start, end);
+        requests.add(req);
+
+        System.out.println("\nRequest Submitted! Now reviewing...\n");
+
+        // Manager review
+        for (VacationRequest r : requests) {
+            r.display();
+            System.out.print("Approve this request? (y/n): ");
+            String decision = scanner.nextLine();
+
+            if (decision.equalsIgnoreCase("y")) {
+                System.out.print("Add a comment: ");
+                r.approve(scanner.nextLine());
+            } else {
+                System.out.print("Add rejection reason: ");
+                r.reject(scanner.nextLine());
+            }
+        }
+
+        // Final status
+        System.out.println("\n--- Final Status of Requests ---");
+        for (VacationRequest r : requests) {
+            r.display();
+        }
+    }
+}

@@ -1,0 +1,77 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class ContentWorkflow {
+
+    enum Status {
+        IDEA_SUBMITTED,
+        APPROVED,
+        DRAFTED,
+        EDITED,
+        PUBLISHED
+    }
+
+    static class ContentItem {
+        String title;
+        String author;
+        Status status;
+
+        public ContentItem(String title, String author) {
+            this.title = title;
+            this.author = author;
+            this.status = Status.IDEA_SUBMITTED;
+        }
+
+        public void advanceStage() {
+            switch (status) {
+                case IDEA_SUBMITTED:
+                    System.out.println("🔍 Reviewing idea: " + title);
+                    status = Status.APPROVED;
+                    break;
+                case APPROVED:
+                    System.out.println("✍️ Drafting content: " + title);
+                    status = Status.DRAFTED;
+                    break;
+                case DRAFTED:
+                    System.out.println("🛠️ Editing content: " + title);
+                    status = Status.EDITED;
+                    break;
+                case EDITED:
+                    System.out.println("🚀 Publishing content: " + title);
+                    status = Status.PUBLISHED;
+                    break;
+                case PUBLISHED:
+                    System.out.println("✅ Content already published.");
+                    break;
+            }
+        }
+
+        public void printStatus() {
+            System.out.println("📄 " + title + " by " + author + " → Status: " + status);
+        }
+    }
+
+    public static void main(String[] args) {
+        List<ContentItem> pipeline = new ArrayList<>();
+
+        // Step 1: Add content ideas
+        pipeline.add(new ContentItem("10 Productivity Hacks", "Alice"));
+        pipeline.add(new ContentItem("Top 5 Java Tips", "Bob"));
+
+        // Simulate workflow progression
+        for (int i = 0; i < 5; i++) {
+            System.out.println("\n🌀 Cycle " + (i + 1) + " --------------------");
+            for (ContentItem item : pipeline) {
+                item.advanceStage();
+                item.printStatus();
+            }
+
+            // Simulate a delay between cycles
+            try {
+                Thread.sleep(1000); // 1 second delay
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}

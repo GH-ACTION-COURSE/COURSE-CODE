@@ -1,0 +1,77 @@
+from enum import Enum
+import uuid
+import datetime
+
+
+class Priority(Enum):
+    P1 = "Critical"
+    P2 = "High"
+    P3 = "Medium"
+    P4 = "Low"
+
+
+class Status(Enum):
+    NEW = "New"
+    IN_PROGRESS = "In Progress"
+    ESCALATED = "Escalated"
+    RESOLVED = "Resolved"
+    CLOSED = "Closed"
+
+
+class Incident:
+    def __init__(self, reporter, category, description, urgency):
+        self.id = str(uuid.uuid4())
+        self.reporter = reporter
+        self.category = category
+        self.description = description
+        self.urgency = urgency
+        self.impact = "Medium"  # Assume fixed for simplicity
+        self.priority = self.determine_priority()
+        self.status = Status.NEW
+        self.created_at = datetime.datetime.now()
+        self.resolution_notes = ""
+
+    def determine_priority(self):
+        if self.urgency == "High" and self.impact == "High":
+            return Priority.P1
+        elif self.urgency == "High":
+            return Priority.P2
+        elif self.urgency == "Medium":
+            return Priority.P3
+        else:
+            return Priority.P4
+
+    def update_status(self, new_status):
+        print(f"[{self.id}] Status updated from {self.status.value} to {new_status.value}")
+        self.status = new_status
+
+    def resolve(self, notes):
+        self.resolution_notes = notes
+        self.update_status(Status.RESOLVED)
+
+    def close(self):
+        self.update_status(Status.CLOSED)
+
+    def escalate(self):
+        self.update_status(Status.ESCALATED)
+
+    def __str__(self):
+        return f"Incident {self.id} | Status: {self.status.value} | Priority: {self.priority.value}"
+
+
+# Example Workflow
+incident = Incident(
+    reporter="user@example.com",
+    category="Network",
+    description="Internet connection is down",
+    urgency="High"
+)
+
+print(incident)
+
+incident.update_status(Status.IN_PROGRESS)
+incident.escalate()  # if initial team can't resolve
+incident.resolve("Rebooted router, connectivity restored")
+incident.close()
+
+print(f"Incident Closed: {incident}")
